@@ -98,7 +98,7 @@ class App extends React.Component {
                     cats: [...prevState.cats, { id, name, color, collar, age }],
                 };
             });
-        }, 1000);
+        }, 5000);
         // console.log(id, name, color, age, collar);
         // const intervalHungryCat = setInterval(() => {}, 5000);
         return { intervalCreateCat };
