@@ -9,8 +9,8 @@ export default class Cat extends Component {
     }
     componentDidMount() {
         setInterval(() => {
-            this.props.cat.isHungary = true;
-            this.state.counter += 1;
+            // this.props.cat.isHungary = true;
+            // this.state.counter += 1;
             console.log(this.state.counter);
         }, 5000);
     }
