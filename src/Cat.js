@@ -28,7 +28,7 @@ export default class Cat extends Component {
                             : "you can adobt it"}
                     </p>
                     <p>{this.props.cat.age}</p>
-                    {this.props.cat.isHungary ? (
+                    {this.props.isHungary ? (
                         <button
                             onClick={() =>
                                 this.props.handleClick(this.props.cat.id)
@@ -37,7 +37,7 @@ export default class Cat extends Component {
                             Feed
                         </button>
                     ) : (
-                        "cat is not hungry"
+                        ""
                     )}
                 </div>
             </>

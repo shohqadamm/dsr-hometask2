@@ -124,7 +124,7 @@ class App extends React.Component {
                 </div>
                 <div className="adobted--cats">
                     {this.state.adobtedCats.map((cat, index) => (
-                        <Cat cat={cat} handleClick={this.feed} />
+                        <Cat cat={cat} isHungary={cat.isHungary} handleClick={this.feed} />
                     ))}
                 </div>
             </div>
