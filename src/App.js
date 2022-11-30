@@ -103,30 +103,27 @@ class App extends React.Component {
                     cats: [...prevState.cats, { id, name, color, collar, age }],
                 };
             });
+            console.log(this.state.adobtedCats);
         }, 5000);
-
-        // if (this.makeHungaryCat) {
-        //     clearInterval(this.makeHungaryCat);
-        // }
-        // this.makeHungaryCat = setInterval(() => {
-        setTimeout(() => {
-            this.state.adobtedCats.map((cat, index) => {
-                if (cat.isHungary) {
-                    this.state.adobtedCats.splice(index, 1);
-                }
-            });
-        }, 5000);
-        // }, 5);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.intervalCreateCat);
-        // clearInterval(this.makeHungaryCat);
+        if (this.makeHungaryCat) {
+            clearInterval(this.makeHungaryCat);
+        }
+        this.makeHungaryCat = setInterval(() => {
+            setTimeout(() => {
+                this.state.adobtedCats.map((cat, index) => {
+                    if (cat.isHungary) {
+                        this.state.adobtedCats.splice(index, 1);
+                        this.state.cats.splice(index, 1);
+                    }
+                });
+            }, 5001);
+        }, 5);
     }
 
     feed = (id) => {
         console.log("clicked");
         let catIdx = this.state.adobtedCats.findIndex((x) => x.id === id);
+        console.log(catIdx);
         let clickedCat = this.state.adobtedCats[catIdx];
         let newCats = [...this.state.adobtedCats];
         clickedCat.isHungary = false;
@@ -141,6 +138,11 @@ class App extends React.Component {
             this.setState({ adobtedCats: [...newCats] });
         }, 10000);
     };
+
+    componentWillUnmount() {
+        clearInterval(this.intervalCreateCat);
+        clearInterval(this.makeHungaryCat);
+    }
 
     render() {
         return (

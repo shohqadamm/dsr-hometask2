@@ -6,22 +6,6 @@ export default class Cat extends Component {
         this.state = {};
     }
 
-    // componentDidMount() {
-    //     if (this.getHungry) {
-    //         clearInterval(this.getHungry);
-    //     }
-    //     if (!this.props.isHungary) {
-    //         setTimeout(() => {
-    //             console.log("cat is hungry");
-    //         });
-    //     }
-    //     // this.getHungry = setTimeout(() => {
-    //     //     console.log(5);
-    //     // }, 3000);
-    // }
-    // componentWillUnmount() {
-    //     clearInterval(this.getHungry);
-    // }
     render() {
         return (
             <>
