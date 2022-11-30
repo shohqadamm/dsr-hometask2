@@ -4,6 +4,7 @@ import catNames from "cat-names";
 import { v4 as uuidv4 } from "uuid";
 
 import Cat from "./Cat";
+import { click } from "@testing-library/user-event/dist/click";
 class App extends React.Component {
     constructor() {
         super();
@@ -88,41 +89,51 @@ class App extends React.Component {
                 this.colors[Math.floor(Math.random() * this.colors.length)];
             let collar = Math.random() < 0.5;
             let age = Math.floor(Math.random() * 5);
+            let newCat = { id, name, color, collar, age, isHungary: true };
             if (!collar) {
                 this.setState((prevState) => {
                     return {
-                        adobtedCats: [
-                            ...prevState.adobtedCats,
-                            { id, name, color, collar, age, isHungary: true },
-                        ],
+                        adobtedCats: [...prevState.adobtedCats, newCat],
                     };
                 });
             }
             this.setState((prevState) => {
                 return {
-                    cats: [...prevState.cats, { id, name, color, collar, age }],
+                    cats: [...prevState.cats, newCat],
                 };
             });
-            console.log(this.state.adobtedCats);
+            // console.table(this.state.adobtedCats);
+            // console.table(this.state.cats);
+
+            this.makeCatHungry(newCat);
         }, 5000);
 
         if (this.makeHungaryCat) {
             clearInterval(this.makeHungaryCat);
         }
-        this.makeHungaryCat = setInterval(() => {
-            setTimeout(() => {
-                let adobtedCatsCopy = this.state.adobtedCats;
-                adobtedCatsCopy.map((cat, index) => {
-                    if (cat.isHungary) {
-                        this.state.cats.splice(index, 1);
-                        this.state.adobtedCats.splice(index, 1);
-                        return true;
-                    }
-                });
-            }, 5000);
-        }, 5000);
+        // this.makeHungaryCat = setInterval(() => {
+        //   setTimeout(() => {
+        //         let adobtedCatsCopy = this.state.adobtedCats;
+        //         adobtedCatsCopy.map((cat, index) => {
+        //             if (cat.isHungary) {
+        //                 let smth = this.state.adobtedCats.splice(index, 1);
+        //                 console.log("id of spliced el", smth[0].id);
+        //                 this.state.adobtedCats.splice(index, 1);
+        //                 this.setState((prevState) => {
+        //                     return {
+        //                         cats: prevState.cats.filter(
+        //                             (cat) => cat.id !== smth[0].id
+        //                         ),
+        //                     };
+        //                 });
+        //                 // this.state.cats.filter((cat) => cat.id !== smth[0].id);
+        //             }
+        //             return true;
+        //         });
+        //     }, 5000);
+        // }, 1);
     }
-
+    // componentDidUpdate() {}
     feed = (id) => {
         console.log("clicked");
         let catIdx = this.state.adobtedCats.findIndex((x) => x.id === id);
@@ -139,7 +150,34 @@ class App extends React.Component {
             let catsTimeout = [...this.state.adobtedCats];
             catsTimeout[catIdx] = clickedCat;
             this.setState({ adobtedCats: [...newCats] });
+
+            this.makeCatHungry(clickedCat);
         }, 10000);
+    };
+
+    makeCatHungry = (_cat) => {
+        setTimeout(() => {
+            // let adobtedCatsCopy = this.state.adobtedCats;
+            // adobtedCatsCopy.map((cat, index) => {
+            if (_cat.isHungary) {
+                // let smth = this.state.adobtedCats.splice(index, 1);
+                // console.log("id of spliced el", smth[0].id);
+                // this.state.adobtedCats.splice(index, 1);
+                this.setState((prevState) => {
+                    return {
+                        cats: prevState.cats.filter(
+                            (cat) => cat.id !== _cat.id
+                        ),
+                        adobtedCats: prevState.adobtedCats.filter(
+                            (cat) => cat.id !== _cat.id
+                        ),
+                    };
+                });
+                // this.state.cats.filter((cat) => cat.id !== smth[0].id);
+            }
+            //     return true;
+            // });
+        }, 5000);
     };
 
     componentWillUnmount() {
