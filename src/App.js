@@ -112,8 +112,8 @@ class App extends React.Component {
             setTimeout(() => {
                 this.state.adobtedCats.map((cat, index) => {
                     if (cat.isHungary) {
-                        this.state.adobtedCats.splice(index, 1);
                         this.state.cats.splice(index, 1);
+                        return this.state.adobtedCats.splice(index, 1);
                     }
                 });
             }, 5001);
