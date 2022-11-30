@@ -77,11 +77,14 @@ class App extends React.Component {
                 this.colors[Math.floor(Math.random() * this.colors.length)];
             let collar = Math.random() < 0.5;
             let age = Math.floor(Math.random() * 5);
-            let newCat = { id, name, color, collar, age, isHungary: true };
+            let newCat = { id, name, color, collar, age, isHungary: false };
             if (!collar) {
                 this.setState((prevState) => {
                     return {
-                        adobtedCats: [...prevState.adobtedCats, newCat],
+                        adobtedCats: [
+                            ...prevState.adobtedCats,
+                            { ...newCat, isHungary: true },
+                        ],
                     };
                 });
             }
@@ -132,7 +135,7 @@ class App extends React.Component {
                         ),
                     };
                 });
-            }
+            } else return;
         }, 5000);
     };
 
