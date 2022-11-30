@@ -113,7 +113,8 @@ class App extends React.Component {
                 this.state.adobtedCats.map((cat, index) => {
                     if (cat.isHungary) {
                         this.state.cats.splice(index, 1);
-                        return this.state.adobtedCats.splice(index, 1);
+                        this.state.adobtedCats.splice(index, 1);
+                        return true;
                     }
                 });
             }, 5001);
