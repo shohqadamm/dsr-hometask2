@@ -105,20 +105,22 @@ class App extends React.Component {
             });
             console.log(this.state.adobtedCats);
         }, 5000);
+
         if (this.makeHungaryCat) {
             clearInterval(this.makeHungaryCat);
         }
         this.makeHungaryCat = setInterval(() => {
             setTimeout(() => {
-                this.state.adobtedCats.map((cat, index) => {
+                let adobtedCatsCopy = this.state.adobtedCats;
+                adobtedCatsCopy.map((cat, index) => {
                     if (cat.isHungary) {
                         this.state.cats.splice(index, 1);
                         this.state.adobtedCats.splice(index, 1);
                         return true;
                     }
                 });
-            }, 5001);
-        }, 5);
+            }, 5000);
+        }, 5000);
     }
 
     feed = (id) => {
