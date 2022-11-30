@@ -76,8 +76,9 @@ class App extends React.Component {
             let color =
                 this.colors[Math.floor(Math.random() * this.colors.length)];
             let collar = Math.random() < 0.5;
-            let age = Math.floor(Math.random() * 5);
-            let newCat = { id, name, color, collar, age, isHungary: false };
+            let age = Math.floor(Math.random() * 5),
+                isHungary;
+            let newCat = { id, name, color, collar, age, isHungary };
             if (!collar) {
                 this.setState((prevState) => {
                     return {
@@ -90,7 +91,7 @@ class App extends React.Component {
             }
             this.setState((prevState) => {
                 return {
-                    cats: [...prevState.cats, { id, name, color, collar, age }],
+                    cats: [...prevState.cats, { ...newCat, isHungary: false }],
                 };
             });
 
@@ -102,15 +103,12 @@ class App extends React.Component {
         }
     }
     feed = (id) => {
-        console.log("clicked");
         let catIdx = this.state.adobtedCats.findIndex((x) => x.id === id);
-        console.log(catIdx);
         let clickedCat = this.state.adobtedCats[catIdx];
         let newCats = [...this.state.adobtedCats];
         clickedCat.isHungary = false;
         newCats[catIdx] = clickedCat;
         this.setState({ adobtedCats: [...newCats] });
-        console.log("state updated");
 
         setTimeout(() => {
             clickedCat.isHungary = true;
@@ -154,12 +152,7 @@ class App extends React.Component {
                 </div>
                 <div className="adobted--cats">
                     {this.state.adobtedCats.map((cat, index) => (
-                        <Cat
-                            key={cat.id}
-                            cat={cat}
-                            isHungary={cat.isHungary}
-                            handleClick={this.feed}
-                        />
+                        <Cat key={cat.id} cat={cat} handleClick={this.feed} />
                     ))}
                 </div>
             </div>

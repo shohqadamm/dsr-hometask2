@@ -20,7 +20,7 @@ export default class Cat extends Component {
                             : "you can adobt it"}
                     </p>
                     <p>{this.props.cat.age}</p>
-                    {this.props.isHungary ? (
+                    {this.props.cat.isHungary ? (
                         <button
                             onClick={() =>
                                 this.props.handleClick(this.props.cat.id)
