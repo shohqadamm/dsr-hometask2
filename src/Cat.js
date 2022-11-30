@@ -3,17 +3,25 @@ import React, { Component } from "react";
 export default class Cat extends Component {
     constructor() {
         super();
-        this.state = {
-            counter: 0,
-        };
+        this.state = {};
     }
-    componentDidMount() {
-        setInterval(() => {
-            // this.props.cat.isHungary = true;
-            // this.state.counter += 1;
-            console.log(this.state.counter);
-        }, 5000);
-    }
+
+    // componentDidMount() {
+    //     if (this.getHungry) {
+    //         clearInterval(this.getHungry);
+    //     }
+    //     if (!this.props.isHungary) {
+    //         setTimeout(() => {
+    //             console.log("cat is hungry");
+    //         });
+    //     }
+    //     // this.getHungry = setTimeout(() => {
+    //     //     console.log(5);
+    //     // }, 3000);
+    // }
+    // componentWillUnmount() {
+    //     clearInterval(this.getHungry);
+    // }
     render() {
         return (
             <>
