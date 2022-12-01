@@ -71,13 +71,13 @@ class App extends React.Component {
             clearInterval(this.intervalCreateCat);
         }
         this.intervalCreateCat = setInterval(() => {
-            let id = uuidv4();
-            let name = catNames.random();
-            let color =
-                this.colors[Math.floor(Math.random() * this.colors.length)];
-            let collar = Math.random() < 0.5;
-            let age = Math.floor(Math.random() * 5),
-                isHungary;
+            let id = uuidv4(),
+                name = catNames.random(),
+                color =
+                    this.colors[Math.floor(Math.random() * this.colors.length)],
+                collar = Math.random() < 0.5,
+                age = Math.floor(Math.random() * 5),
+                isHungary = true;
             let newCat = { id, name, color, collar, age, isHungary };
             if (!collar) {
                 this.setState((prevState) => {
