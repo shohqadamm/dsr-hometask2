@@ -4,16 +4,17 @@ import catNames from "cat-names";
 import { v4 as uuidv4 } from "uuid";
 
 import Cat from "./Cat";
-class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            cats: [],
-            adobtedCats: [],
-        };
-        this.intervalCreateCat = null;
-    }
-    colors = [
+function App() {
+    // constructor() {
+    //     super();
+    //     this.state = {
+    //         cats: [],
+    //         adobtedCats: [],
+    //     };
+    // }
+    const [cats, setCats] = React.useState([]);
+    const [adobtedCats, setAdobtedCats] = React.useState([]);
+    let colors = [
         "#FF6633",
         "#FFB399",
         "#FF33FF",
@@ -66,61 +67,30 @@ class App extends React.Component {
         "#6666FF",
     ];
 
-    componentDidMount() {
-        if (this.intervalCreateCat) {
-            clearInterval(this.intervalCreateCat);
-        }
-        this.intervalCreateCat = setInterval(() => {
+    React.useEffect(() => {
+        const intervalCreateCat = setInterval(() => {
             let id = uuidv4(),
                 name = catNames.random(),
-                color =
-                    this.colors[Math.floor(Math.random() * this.colors.length)],
+                color = colors[Math.floor(Math.random() * colors.length)],
                 collar = Math.random() < 0.5,
                 age = Math.floor(Math.random() * 5),
-                isHungary = true;
-            let newCat = { id, name, color, collar, age, isHungary };
+                isHungary = true,
+                newCat = { id, name, color, collar, age, isHungary };
             if (!collar) {
-                this.setState((prevState) => {
-                    return {
-                        adobtedCats: [
-                            ...prevState.adobtedCats,
-                            { ...newCat, isHungary: true },
-                        ],
-                    };
-                });
+                setAdobtedCats((prevState) => [
+                    ...prevState,
+                    { ...newCat, isHungary: true },
+                ]);
             }
-            this.setState((prevState) => {
-                return {
-                    cats: [...prevState.cats, { ...newCat, isHungary: false }],
-                };
-            });
-
-            this.makeCatHungry(newCat);
+            setCats((prevState) => [
+                ...prevState,
+                { ...newCat, isHungary: false },
+            ]);
+            makeCatHungry({ ...newCat, isHungary: false });
         }, 5000);
-
-        if (this.makeHungaryCat) {
-            clearInterval(this.makeHungaryCat);
-        }
-    }
-    feed = (id) => {
-        let catIdx = this.state.adobtedCats.findIndex((x) => x.id === id);
-        let clickedCat = this.state.adobtedCats[catIdx];
-        let newCats = [...this.state.adobtedCats];
-        clickedCat.isHungary = false;
-        newCats[catIdx] = clickedCat;
-        this.setState({ adobtedCats: [...newCats] });
-
-        setTimeout(() => {
-            clickedCat.isHungary = true;
-            let catsTimeout = [...this.state.adobtedCats];
-            catsTimeout[catIdx] = clickedCat;
-            this.setState({ adobtedCats: [...catsTimeout] });
-
-            this.makeCatHungry(clickedCat);
-        }, 10000);
-    };
-
-    makeCatHungry = (_cat) => {
+        return () => clearInterval(intervalCreateCat);
+    });
+    const makeCatHungry = (_cat) => {
         setTimeout(() => {
             if (_cat.isHungary) {
                 this.setState((prevState) => {
@@ -136,28 +106,38 @@ class App extends React.Component {
             } else return;
         }, 5000);
     };
+    const feed = (id) => {
+        let catIdx = adobtedCats.findIndex((x) => x.id === id);
+        let clickedCat = adobtedCats[catIdx];
+        let newCats = [...adobtedCats];
+        clickedCat.isHungary = false;
+        newCats[catIdx] = clickedCat;
+        setAdobtedCats([...newCats]);
 
-    componentWillUnmount() {
-        clearInterval(this.intervalCreateCat);
-        clearInterval(this.makeHungaryCat);
-    }
+        setTimeout(() => {
+            clickedCat.isHungary = true;
+            let catsTimeout = [...adobtedCats];
+            catsTimeout[catIdx] = clickedCat;
+            setAdobtedCats([...catsTimeout]);
 
-    render() {
-        return (
-            <div className="App">
-                <div className="generated--cats">
-                    {this.state.cats.map((cat) => (
-                        <Cat key={cat.id} cat={cat} />
-                    ))}
-                </div>
-                <div className="adobted--cats">
-                    {this.state.adobtedCats.map((cat, index) => (
-                        <Cat key={cat.id} cat={cat} handleClick={this.feed} />
-                    ))}
-                </div>
+            makeCatHungry(clickedCat);
+        }, 10000);
+    };
+
+    return (
+        <div className="App">
+            <div className="generated--cats">
+                {cats.map((cat) => (
+                    <Cat key={cat.id} cat={cat} />
+                ))}
             </div>
-        );
-    }
+            <div className="adobted--cats">
+                {adobtedCats.map((cat) => (
+                    <Cat key={cat.id} cat={cat} handleClick={feed} />
+                ))}
+            </div>
+        </div>
+    );
 }
 
-export default App;
+export default App();
